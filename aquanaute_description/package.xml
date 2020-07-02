@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>aquanaute_description</name>
+  <version>0.4.2</version>
+  <description>Aquanaute Boat URDF description</description>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>urdf</run_depend>
+
+  <export>
+  </export>
+</package>
+

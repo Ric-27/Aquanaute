@@ -1,0 +1,10 @@
+<launch>
+
+  <arg name="robot_namespace" default="aquanaute"/>
+
+  <param name="robot_description" command="$(find husky_description)/urdf/aquanaute.urdf
+    robot_namespace:=$(arg robot_namespace)
+    " />
+
+</launch>
+
