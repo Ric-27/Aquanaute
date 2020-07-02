@@ -1,10 +1,18 @@
 <launch>
-
   <arg name="robot_namespace" default="aquanaute"/>
 
-  <param name="robot_description" command="$(find husky_description)/urdf/aquanaute.urdf
-    robot_namespace:=$(arg robot_namespace)
-    " />
+  <param name="robot_description" command="cat $(find aquanaute_description)/urdf/aquanaute.urdf"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="joint_state_publisher_gui" value="false"/>
+  </node>
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aquanaute_description)/rviz/aquanaute.rviz"/>
 
 </launch>
 

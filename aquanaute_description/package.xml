@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <package>
   <name>aquanaute_description</name>
-  <version>0.4.2</version>
+  <version>0.0.1</version>
   <description>Aquanaute Boat URDF description</description>
+  <author email="ricardorico0527@gmail.com">Ricardo RICO URIBE</author>
+  <maintainer email="ricardorico0527@gmail.com">Ricardo RICO URIBE</maintainer>
+  <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roslaunch</build_depend>
