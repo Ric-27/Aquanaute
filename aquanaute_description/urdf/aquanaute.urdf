@@ -31,13 +31,21 @@
 
    	<!-- * * * Link Definitions * * * -->
     <link name="base_link">
-        <!--
+        <visual>
+            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.001"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+
+    <link name="platform_link">
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="10.5"/>
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
+            <origin xyz="-0.024 0 -0007" rpy="0 0 0"/>
+            <mass value="16"/>
+            <inertia ixx="4.206" ixy="0.0" ixz="-0.031" iyy="4.588" iyz="0.0" izz="8.785"/>
         </inertial>
-        -->
 
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -56,13 +64,12 @@
     </link>
 
     <link name="right_hull_link">
-        <!--
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="10.5"/>
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
+            <origin xyz="-0.124 0 -0.168" rpy="0 0 0"/>
+            <mass value="10.45"/>
+            <inertia ixx="0.244" ixy="3.346" ixz="0.009" iyy="4.974" iyz="-8.274" izz="4.965"/>
         </inertial>
-        -->
+
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
@@ -80,13 +87,11 @@
     </link>
 
     <link name="left_hull_link">
-        <!--
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="10.5"/>
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
+            <origin xyz="-0.124 0 -0.168" rpy="0 0 0"/>
+            <mass value="10.45"/>
+            <inertia ixx="0.244" ixy="3.346" ixz="0.009" iyy="4.974" iyz="-8.274" izz="4.965"/>
         </inertial>
-        -->
 
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -105,13 +110,11 @@
     </link>
 
     <link name="motor_link">
-        <!--
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="10.5"/>
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
+            <origin xyz="-0.133 0 -0.391" rpy="0 0 0"/>
+            <mass value="6.6"/>
+            <inertia ixx="0.072" ixy="3.604" ixz="-0.011" iyy="0.111" iyz="5.484" izz="0.042"/>
         </inertial>
-        -->
 
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -130,13 +133,12 @@
     </link>
 
     <link name="sensor_frame_link">
-        <!--
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="10.5"/>
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
+            <origin xyz="-0.007 0 0.379" rpy="0 0 0"/>
+            <mass value="1.8"/>
+            <inertia ixx="0.308" ixy="0.00" ixz="0.007" iyy="0.297"	iyz="0.00" izz="0.022"/>
         </inertial>
-        -->
+        
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
@@ -154,14 +156,20 @@
     </link>
 
     <!-- * * * Joint Definitions * * * -->
-    <joint name="right_hull_platform_joint" type="fixed">
+    <joint name="platform_base_joint" type="fixed">
     	<parent link="base_link"/>
+    	<child link="platform_link"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+    <joint name="right_hull_platform_joint" type="fixed">
+    	<parent link="platform_link"/>
     	<child link="right_hull_link"/>
     	<origin xyz="-0.05 -0.7 -0.036" rpy="0 0 0"/>
 	</joint>
 
     <joint name="left_hull_platform_joint" type="fixed">
-    	<parent link="base_link"/>
+    	<parent link="platform_link"/>
     	<child link="left_hull_link"/>
     	<origin xyz="-0.05 0.7 -0.036" rpy="0 0 0"/>
 	</joint>
