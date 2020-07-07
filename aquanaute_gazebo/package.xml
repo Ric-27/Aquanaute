@@ -1,21 +1,23 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
   <name>aquanaute_gazebo</name>
-  <version>0.4.2</version>
-  <description>Aquanaute Simulator bringup</description>
-
-  <author email="ricardo.rico-uribe@ensta-paris.fr">Ricardo RICO URIBE</author>
-
+  <version>1.3.0</version>
+  <description>
+    Provides templates and examples for integrating the WAM-V model into gazebo with dynamics, sensors, etc.
+  </description>
+  <maintainer email="caguero@osrfoundation.org">Carlos Aguero</maintainer>
+  <maintainer email="jriveroo@osrfoundation.org">Jose Luis Rivero</maintainer>
+  <license>Apache 2.0</license>
+  <url type="website">http://wiki.ros.org/wamv_gazebo</url>
+  <url type="bugtracker">http://github.com/osrf/vrx/issues</url>
+  <author email="briansbingham@gmail.com">Brian Bingham</author>
+  <author email="caguero@osrfoundation.org">Carlos Aguero</author>
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>roslaunch</build_depend>
-  <run_depend>controller_manager</run_depend>
-  <run_depend>gazebo_plugins</run_depend>
-  <run_depend>gazebo_ros</run_depend>
-  <run_depend>gazebo_ros_control</run_depend>
-  <run_depend>aquanaute_description</run_depend>
-  <run_depend>rostopic</run_depend>
-
-  <export>
-  </export>
+  <depend>gazebo_plugins</depend>
+  <depend>hector_gazebo_plugins</depend>
+  <depend>robot_localization</depend>
+  <depend>usv_gazebo_plugins</depend>
+  <depend>velodyne_gazebo_plugins</depend>
+  <depend>aquanaute_description</depend>
+  <depend>xacro</depend>
 </package>
-
