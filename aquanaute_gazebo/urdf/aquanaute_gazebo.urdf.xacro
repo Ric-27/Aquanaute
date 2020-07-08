@@ -4,7 +4,7 @@
     <!-- Include macros for dynamics plugins -->
     <xacro:include filename="$(find aquanaute_gazebo)/urdf/macros.xacro" />
     <!-- Defines the base vehicle -->
-    <xacro:include filename="$(find aquanaute_description)/urdf/aquanaute_description.urdf.xacro" />
+    <xacro:include filename="$(find aquanaute_description)/urdf/aquanaute_description.urdf.xacro" name="aquanaute"/>
     <!-- Attach hydrodynamics plugin -->
     <xacro:usv_dynamics_gazebo name="aquanaute_dynamics_plugin"/>
 </robot>

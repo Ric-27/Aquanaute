@@ -9,9 +9,9 @@
         <waterLevel>0</waterLevel>
         <waterDensity>997.8</waterDensity>
         <!-- Added mass -->
-        <xDotU>0.0</xDotU>
-        <yDotV>0.0</yDotV>
-        <nDotR>0.0</nDotR>
+        <xDotU>10.0</xDotU>
+        <yDotV>10.0</yDotV>
+        <nDotR>25.0</nDotR>
         <!-- Linear and quadratic drag -->
         <xU>51.3</xU>
         <xUU>72.4</xUU>
@@ -24,9 +24,9 @@
         <nRR>0.0</nRR>
         <!-- General dimensions -->
         <!--<boatArea>2.2</boatArea>-->
-        <hullRadius>0.19</hullRadius>
-        <boatWidth>2</boatWidth>
-        <boatLength>3</boatLength>
+        <hullRadius>0.18</hullRadius>
+        <boatWidth>1.8</boatWidth>
+        <boatLength>3.0</boatLength>
         <!-- Length discretization, AKA, "N" -->
         <length_n>10</length_n>
         <!-- Wave model -->

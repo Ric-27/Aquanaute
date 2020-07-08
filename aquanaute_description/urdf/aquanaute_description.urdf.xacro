@@ -159,7 +159,7 @@
     <joint name="platform_base_joint" type="fixed">
     	<parent link="base_link"/>
     	<child link="platform_link"/>
-    	<origin xyz="0 0 0" rpy="0 0 0"/>
+    	<origin xyz="0 0 0.35" rpy="0 0 0"/>
 	</joint>
 
     <joint name="right_hull_platform_joint" type="fixed">
@@ -175,13 +175,13 @@
 	</joint>
 
     <joint name="motor_platform_joint" type="fixed">
-    	<parent link="base_link"/>
+    	<parent link="platform_link"/>
     	<child link="motor_link"/>
     	<origin xyz="-0.91 0.0 -0.09" rpy="0 0 0"/>
 	</joint>
 
     <joint name="sensor_frame_platform_joint" type="fixed">
-    	<parent link="base_link"/>
+    	<parent link="platform_link"/>
     	<child link="sensor_frame_link"/>
     	<origin xyz="-0.55 0.0 0.0" rpy="0 0 0"/>
 	</joint>
