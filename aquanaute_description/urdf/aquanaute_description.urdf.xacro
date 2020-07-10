@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="aquanaute">
 
     <material name="blue">
         <color rgba="0 0 0.8 1"/>
@@ -8,7 +8,7 @@
         <color rgba="0.8 0 0 1"/>
     </material>
     <material name="green">
-        <color rgba="0 0.8 0 1"/>
+        <color rgba="0 0.8 0 0.5"/>
     </material>
     <material name="cyan">
         <color rgba="0 0.6 0.6 1"/>
@@ -29,7 +29,7 @@
         <color rgba="0 0 0 1"/>
     </material>
 
-   	<!-- * * * Link Definitions * * * -->
+    <!-- * * * Link Definitions * * * -->
     <link name="base_link">
         <visual>
             <origin rpy="0.0 0 0" xyz="0 0 0"/>
@@ -132,13 +132,30 @@
         </visual>
     </link>
 
+    <link name="propeller_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.04"/>
+            </geometry>
+        </collision>
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+    </link>
+
     <link name="sensor_frame_link">
         <inertial>
             <origin xyz="-0.007 0 0.379" rpy="0 0 0"/>
             <mass value="1.8"/>
-            <inertia ixx="0.308" ixy="0.00" ixz="0.007" iyy="0.297"	iyz="0.00" izz="0.022"/>
+            <inertia ixx="0.308" ixy="0.00" ixz="0.007" iyy="0.297" iyz="0.00" izz="0.022"/>
         </inertial>
-        
+
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
@@ -157,34 +174,44 @@
 
     <!-- * * * Joint Definitions * * * -->
     <joint name="platform_base_joint" type="fixed">
-    	<parent link="base_link"/>
-    	<child link="platform_link"/>
-    	<origin xyz="0 0 0.35" rpy="0 0 0"/>
-	</joint>
+        <parent link="base_link"/>
+        <child link="platform_link"/>
+        <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    </joint>
 
     <joint name="right_hull_platform_joint" type="fixed">
-    	<parent link="platform_link"/>
-    	<child link="right_hull_link"/>
-    	<origin xyz="-0.05 -0.7 -0.036" rpy="0 0 0"/>
-	</joint>
+        <parent link="platform_link"/>
+        <child link="right_hull_link"/>
+        <origin xyz="-0.05 -0.7 -0.036" rpy="0 0 0"/>
+    </joint>
 
     <joint name="left_hull_platform_joint" type="fixed">
-    	<parent link="platform_link"/>
-    	<child link="left_hull_link"/>
-    	<origin xyz="-0.05 0.7 -0.036" rpy="0 0 0"/>
-	</joint>
+        <parent link="platform_link"/>
+        <child link="left_hull_link"/>
+        <origin xyz="-0.05 0.7 -0.036" rpy="0 0 0"/>
+    </joint>
 
-    <joint name="motor_platform_joint" type="fixed">
-    	<parent link="platform_link"/>
-    	<child link="motor_link"/>
-    	<origin xyz="-0.91 0.0 -0.09" rpy="0 0 0"/>
-	</joint>
+    <joint name="motor_platform_joint" type="revolute">
+        <parent link="platform_link"/>
+        <child link="motor_link"/>
+        <origin xyz="-0.91 0.0 -0.09" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="-1" velocity="-1" lower="-0.9" upper="0.9"/>
+    </joint>
+
+    <joint name="propeller_motor_joint" type="revolute">
+        <parent link="motor_link"/>
+        <child link="propeller_link"/>
+        <origin xyz="-0.28 0 -0.42" rpy="0 1.57 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="-1" velocity="-1" lower="-1e+12" upper="1e+12"/>
+    </joint>
 
     <joint name="sensor_frame_platform_joint" type="fixed">
-    	<parent link="platform_link"/>
-    	<child link="sensor_frame_link"/>
-    	<origin xyz="-0.55 0.0 0.0" rpy="0 0 0"/>
-	</joint>
+        <parent link="platform_link"/>
+        <child link="sensor_frame_link"/>
+        <origin xyz="-0.55 0.0 0.0" rpy="0 0 0"/>
+    </joint>
 
     <!-- * * * GAZEBO Definitions * * * -->
 
@@ -235,5 +262,52 @@
         <mu2>10.0</mu2>
         <material>Gazebo/White</material>
     </gazebo>
-    
+
+    <!-- * * * GAZEBO Plugins * * * -->
+
+    <plugin name="ardupilot_plugin" filename="libArduPilotPlugin.so">
+        <fdm_addr>127.0.0.1</fdm_addr>
+        <fdm_port_in>9002</fdm_port_in>
+        <fdm_port_out>9003</fdm_port_out>
+        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
+        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
+        <!--<imuName></imuName>-->
+        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+        <!--
+          incoming control command [0, 1]
+          so offset it by 0 to get [0, 1]
+          and divide max target by 1.
+          offset = 0
+          multiplier = 838 max rpm / 1 = 838
+        -->
+        <control channel="0">
+            <multiplier>1</multiplier>
+            <offset>-0.5</offset>
+            <type>RIC</type>
+            <p_gain>1</p_gain>
+            <i_gain>0</i_gain>
+            <d_gain>0</d_gain>
+            <i_max>0</i_max>
+            <i_min>0</i_min>
+            <cmd_max>1</cmd_max>
+            <cmd_min>-1</cmd_min>
+            <jointName>aquanaute::motor_platform_joint</jointName>
+        </control>
+
+        <control channel="1">
+            <multiplier>1</multiplier>
+            <offset>-0.5</offset>
+            <type>THOMAS</type>
+            <p_gain>1</p_gain>
+            <i_gain>0</i_gain>
+            <d_gain>0</d_gain>
+            <i_max>0</i_max>
+            <i_min>0</i_min>
+            <cmd_max>1</cmd_max>
+            <cmd_min>-1</cmd_min>
+            <jointName>aquanaute::propeller_motor_joint</jointName>
+        </control>
+
+    </plugin>
+
 </robot>
