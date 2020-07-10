@@ -143,9 +143,9 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <cylinder radius="0.01" length="0.02"/>
+                <cylinder radius="0.04" length="0.05"/>
             </geometry>
-            <material name="green"/>
+            <material name="black"/>
         </visual>
     </link>
 
@@ -167,6 +167,16 @@
             <origin rpy="0.0 0 0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://aquanaute_description/models/meshes/sensor_frame.stl"/>
+            </geometry>
+            <material name="cyan"/>
+        </visual>
+    </link>
+
+    <link name="imu_link">
+        <visual>
+            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.05"/>
             </geometry>
             <material name="cyan"/>
         </visual>
@@ -199,12 +209,12 @@
         <limit effort="-1" velocity="-1" lower="-0.9" upper="0.9"/>
     </joint>
 
-    <joint name="propeller_motor_joint" type="revolute">
+    <joint name="propeller_motor_joint" type="fixed">
         <parent link="motor_link"/>
         <child link="propeller_link"/>
-        <origin xyz="-0.28 0 -0.42" rpy="0 1.57 0"/>
+        <origin xyz="-0.5 0 0.42" rpy="0 1.57 0"/>
         <axis xyz="0 0 1"/>
-        <limit effort="-1" velocity="-1" lower="-1e+12" upper="1e+12"/>
+        <limit effort="-1" velocity="-1" lower="-1e+16" upper="1e+16"/>
     </joint>
 
     <joint name="sensor_frame_platform_joint" type="fixed">
@@ -213,101 +223,9 @@
         <origin xyz="-0.55 0.0 0.0" rpy="0 0 0"/>
     </joint>
 
-    <!-- * * * GAZEBO Definitions * * * -->
-
-    <gazebo reference="base_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/Grey</material>
-    </gazebo>
-
-    <gazebo reference="platform_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/Grey</material>
-    </gazebo>
-
-    <gazebo reference="right_hull_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/Red</material>
-    </gazebo>
-
-    <gazebo reference="left_hull_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/Red</material>
-    </gazebo>
-
-    <gazebo reference="motor_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/Black</material>
-    </gazebo>
-
-    <gazebo reference="sensor_frame_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/White</material>
-    </gazebo>
-
-    <!-- * * * GAZEBO Plugins * * * -->
-
-    <plugin name="ardupilot_plugin" filename="libArduPilotPlugin.so">
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9002</fdm_port_in>
-        <fdm_port_out>9003</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <!--<imuName></imuName>-->
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-        <!--
-          incoming control command [0, 1]
-          so offset it by 0 to get [0, 1]
-          and divide max target by 1.
-          offset = 0
-          multiplier = 838 max rpm / 1 = 838
-        -->
-        <control channel="0">
-            <multiplier>1</multiplier>
-            <offset>-0.5</offset>
-            <type>RIC</type>
-            <p_gain>1</p_gain>
-            <i_gain>0</i_gain>
-            <d_gain>0</d_gain>
-            <i_max>0</i_max>
-            <i_min>0</i_min>
-            <cmd_max>1</cmd_max>
-            <cmd_min>-1</cmd_min>
-            <jointName>aquanaute::motor_platform_joint</jointName>
-        </control>
-
-        <control channel="1">
-            <multiplier>1</multiplier>
-            <offset>-0.5</offset>
-            <type>THOMAS</type>
-            <p_gain>1</p_gain>
-            <i_gain>0</i_gain>
-            <d_gain>0</d_gain>
-            <i_max>0</i_max>
-            <i_min>0</i_min>
-            <cmd_max>1</cmd_max>
-            <cmd_min>-1</cmd_min>
-            <jointName>aquanaute::propeller_motor_joint</jointName>
-        </control>
-
-    </plugin>
-
+    <joint name="imu_platform_joint" type="fixed">
+        <parent link="platform_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    </joint>
 </robot>

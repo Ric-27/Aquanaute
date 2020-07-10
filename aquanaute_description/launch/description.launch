@@ -5,7 +5,7 @@
 
   <!-- send fake joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="joint_state_publisher_gui" value="false"/>
+    <param name="use_gui" value="false"/>
   </node>
 
   <!-- Combine joint values -->
