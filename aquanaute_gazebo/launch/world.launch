@@ -44,4 +44,3 @@
               -R $(arg R) -P $(arg P) -Y $(arg Y)
               -urdf -param $(arg namespace)/robot_description -model aquanaute"/>
 </launch>
-
