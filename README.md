@@ -10,7 +10,7 @@ Repository to simulate the Aquanaute boat in maritime conditions such as wind an
 
 ## Usage
 ### modify wind and waves
-  in the ocean.world.xacro you have found in /vrx_gazebo/worlds
+  in the ocean.world.xacro (/vrx_gazebo/worlds) you have
   ```xml
   <!--Waves-->
   <xacro:include filename="$(find wave_gazebo)/world_models/ocean_waves/model.xacro"/>
@@ -40,8 +40,15 @@ in the workspace run the command at the beginning (and every time you change a p
 then launch the file you created
 
   ```bash
-  roslaunch aquanaute_gazebo world.launch
+  roslaunch aquanaute_gazebo aquanaute.launch testing:=false
   ```
+  this parameter can be changed to true to deactivate the plugins from vrx (the world will be changed to an empty world)
+
+on another terminal (inside the ardupilot root) run
+  ```bash
+  ./Tools/autotest/sim_vehicle.py --vehicle=Rover --frame=sailboat-motor --map --console --location=Xlac
+  ```
+
 ## Author
 Ricardo RICO URIBE intern at U2IS in the summer of 2020
 

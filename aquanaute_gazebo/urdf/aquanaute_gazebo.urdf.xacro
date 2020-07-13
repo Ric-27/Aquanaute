@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <!-- Basic WAM-V with gazebo plugins for dynamics -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <!-- Include macros for dynamics plugins 
-    <xacro:include filename="$(find aquanaute_gazebo)/urdf/macros.xacro" /> -->
+    <xacro:arg name="testing" default="false" />
+    <!-- Include macros for dynamics plugins -->
+    <xacro:unless value="$(arg testing)">
+        <xacro:include filename="$(find aquanaute_gazebo)/urdf/macros.xacro" />
+    </xacro:unless>
+
     <!-- Defines the base vehicle -->
     <xacro:include filename="$(find aquanaute_description)/urdf/aquanaute_description.urdf.xacro"/>
 
-    <!-- Defines the sim plugins-->
+    <!--Gazebo References-->
 
     <gazebo reference="base_link">
         <kp>100000.0</kp>
@@ -49,11 +53,11 @@
     </gazebo>
 
     <gazebo reference="propeller_link">
-        <kp>100000.0</kp>
-        <kd>100000.0</kd>
-        <mu1>10.0</mu1>
-        <mu2>10.0</mu2>
-        <material>Gazebo/Black</material>
+        <kp>1.0</kp>
+        <kd>1.0</kd>
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <material>Gazebo/Blue</material>
     </gazebo>
 
     <gazebo reference="sensor_frame_link">
@@ -64,16 +68,15 @@
         <material>Gazebo/White</material>
     </gazebo>
 
-    <gazebo>
-        <link name="imu_link">
-            <sensor name="imu_sensor" type="imu">
-                <pose>0 0 0 3.141593 0 0</pose>
-                <always_on>1</always_on>
-                <update_rate>1000.0</update_rate>
-            </sensor>
-        </link>
-    </gazebo> 
-
+    <gazebo reference="imu_link">
+        <sensor name="imu_sensor" type="imu">
+            <pose>0 0 0 3.141593 0 0</pose>
+            <always_on>1</always_on>
+            <update_rate>1000.0</update_rate>
+        </sensor>
+        <material>Gazebo/Yellow</material>
+    </gazebo>
+    
     <!-- * * * GAZEBO Plugins * * * -->
     <gazebo>
         <plugin name="ardupilot_plugin" filename="libArduPilotPlugin.so">
@@ -104,23 +107,25 @@
                 <cmd_min>-1</cmd_min>
                 <jointName>aquanaute::motor_platform_joint</jointName>
             </control>
-            
+
             <control channel="1">
-                <multiplier>1</multiplier>
-                <offset>-0.5</offset>
                 <type>VELOCITY</type>
+                <offset>-0.5</offset>
                 <p_gain>1</p_gain>
                 <i_gain>0</i_gain>
                 <d_gain>0</d_gain>
                 <i_max>0</i_max>
                 <i_min>0</i_min>
-                <cmd_max>1</cmd_max>
-                <cmd_min>-1</cmd_min>
+                <cmd_max>10</cmd_max>
+                <cmd_min>-10</cmd_min>
                 <jointName>aquanaute::propeller_motor_joint</jointName>
+                <multiplier>70</multiplier>
             </control>
-            
+
         </plugin>
     </gazebo>
-    <!-- Attach hydrodynamics plugin 
-    <xacro:usv_dynamics_gazebo name="aquanaute_dynamics_plugin"/> -->
+    <!-- Attach hydrodynamics plugin -->
+    <xacro:unless value="$(arg testing)">
+        <xacro:usv_dynamics_gazebo name="aquanaute_dynamics_plugin"/>
+    </xacro:unless>
 </robot>
