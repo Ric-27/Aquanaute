@@ -212,7 +212,8 @@
         <child link="motor_link"/>
         <origin xyz="-0.91 0.0 -0.09" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
-        <limit effort="1" velocity="1" lower="-0.9" upper="0.9"/>
+        <limit effort="-1" velocity="-1" lower="-0.9" upper="0.9"/>
+        <dynamics damping="0.0000001"/>
     </joint>
 
     <joint name="propeller_motor_joint" type="revolute">
@@ -220,7 +221,8 @@
         <child link="propeller_link"/>
         <origin xyz="-0.265 0 -0.42" rpy="0 0 0"/>
         <axis xyz="1 0 0"/>
-        <limit effort="1" velocity="1" lower="-1e+16" upper="1e+16"/>
+        <limit effort="-1" velocity="-1" lower="-1e+16" upper="1e+16"/>
+        <dynamics damping="0.0000001"/>
     </joint>
 
     <joint name="sensor_frame_platform_joint" type="fixed">

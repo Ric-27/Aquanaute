@@ -9,9 +9,9 @@
         <waterLevel>0</waterLevel>
         <waterDensity>997.8</waterDensity>
         <!-- Added mass -->
-        <xDotU>10.0</xDotU>
-        <yDotV>10.0</yDotV>
-        <nDotR>25.0</nDotR>
+        <xDotU>0.0</xDotU>
+        <yDotV>0.0</yDotV>
+        <nDotR>0.0</nDotR>
         <!-- Linear and quadratic drag -->
         <xU>51.3</xU>
         <xUU>72.4</xUU>
@@ -28,7 +28,7 @@
         <boatWidth>1.8</boatWidth>
         <boatLength>3.0</boatLength>
         <!-- Length discretization, AKA, "N" -->
-        <length_n>10</length_n>
+        <length_n>2</length_n>
         <!-- Wave model -->
         <wave_model>ocean_waves</wave_model>
       </plugin>
