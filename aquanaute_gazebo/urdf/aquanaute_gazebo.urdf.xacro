@@ -82,14 +82,28 @@
 
             <control channel="0">
                 <type>POSITION</type>
-                <multiplier>1</multiplier>
+                <multiplier>100</multiplier> <!--ARBITRARY VALUES-->
                 <offset>0</offset>
+                <p_gain>1.0</p_gain>
+                <i_gain>0</i_gain>
+                <d_gain>0</d_gain>
+                <i_max>0</i_max>
+                <i_min>0</i_min>
+                <cmd_max>3.5</cmd_max>
+                <cmd_min>-3.5</cmd_min>
                 <jointName>aquanaute::motor_platform_joint</jointName>
             </control>
-            <control channel="0">
+            <control channel="2">
                 <type>VELOCITY</type>
-                <multiplier>1</multiplier>
+                <multiplier>800</multiplier> <!--ARBITRARY VALUES-->
                 <offset>0</offset>
+                <p_gain>0.20</p_gain>
+                <i_gain>0</i_gain>
+                <d_gain>0</d_gain>
+                <i_max>0</i_max>
+                <i_min>0</i_min>
+                <cmd_max>2.5</cmd_max>
+                <cmd_min>-2.5</cmd_min>
                 <jointName>aquanaute::propeller_motor_joint</jointName>
             </control>
 <!--

@@ -12,8 +12,8 @@ Repository to simulate the Aquanaute boat in maritime conditions such as wind an
 
 ### ardupilot parameters
 
-in the file "vehiculeinfo.py" (/ardupilot/Tools/autotest/pysim) you need to change the default parameters file for the "gazebo-rover" in line 280 to the aquanaute.parm file provided in /aquanaute/aquanaute_description/ardu_params you can copy and paste the file in the default_params folder located inside (/ardupilot/Tools/autotest).
-*There is an error when you launch ardupilot, the motors in the gazebo simulation will start to turn in a fixed direction and wont respond to commands, this issue has not yet been fixed and it's root cause it's not yet defined, it may be the ardupilot_gazebo plugin or the ardupilot frame*
+in the file "vehiculeinfo.py" (/ardupilot/Tools/autotest/pysim) you need to change the default parameters file for the "gazebo-rover" in the line 280 to the aquanaute.parm file provided in /aquanaute/aquanaute_description/ardu_params you can copy and paste the file in the default_params folder located inside (/ardupilot/Tools/autotest).
+*There is an error when you launch ardupilot, the motors in the gazebo simulation will start to turn in a fixed direction and wont respond to commands, this issue has not yet been fixed and it's root cause has not yet been found, It's believed that the ardupilot-gazebo plugin doesnt know how to interpret the signals sended by ardupilot*
 
 ---
 
@@ -58,7 +58,8 @@ then launch the file you created
 
     roslaunch aquanaute_gazebo aquanaute.launch testing:=false
 
-this parameter can be changed to true to deactivate the plugins from vrx (the world will be changed to an empty world without gravity)
+this parameter can be changed to true to deactivate the plugins from vrx (the world will be changed to an empty world without gravity).  
+You will have an error "Missing Model.../dock_permutations) this is normal.
 
 #### ardupilot
 
