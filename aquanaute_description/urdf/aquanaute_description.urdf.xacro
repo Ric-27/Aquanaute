@@ -32,7 +32,7 @@
     <!-- * * * Link Definitions * * * -->
     <link name="base_link">
         <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
                 <sphere radius="0.001"/>
             </geometry>
@@ -40,72 +40,26 @@
         </visual>
     </link>
 
-    <link name="platform_link">
+    <link name="boat_link">
         <inertial>
-            <origin xyz="-0.024 0 -0007" rpy="0 0 0"/>
-            <mass value="16"/>
-            <inertia ixx="4.206" ixy="0.0" ixz="-0.031" iyy="4.588" iyz="0.0" izz="8.785"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="38.718"/>
+            <inertia ixx="16.283" ixy="0.008" ixz="0.458" iyy="19.728" iyz="0.0" izz="33.013"/>
         </inertial>
 
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/Platform.stl"/>
+                <mesh filename="package://aquanaute_description/models/meshes/Assambly_aquanaute.stl"/>
             </geometry>
         </collision>
 
         <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/Platform.stl"/>
+                <mesh filename="package://aquanaute_description/models/meshes/Assambly_aquanaute.stl"/>
             </geometry>
-            <material name="yellow"/>
-        </visual>
-    </link>
-
-    <link name="right_hull_link">
-        <inertial>
-            <origin xyz="-0.124 0 -0.168" rpy="0 0 0"/>
-            <mass value="10.45"/>
-            <inertia ixx="0.244" ixy="3.346" ixz="0.009" iyy="4.974" iyz="-8.274" izz="4.965"/>
-        </inertial>
-
-        <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/Hull.stl"/>
-            </geometry>
-        </collision>
-
-        <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
-            <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/Hull.stl"/>
-            </geometry>
-            <material name="red"/>
-        </visual>
-    </link>
-
-    <link name="left_hull_link">
-        <inertial>
-            <origin xyz="-0.124 0 -0.168" rpy="0 0 0"/>
-            <mass value="10.45"/>
-            <inertia ixx="0.244" ixy="3.346" ixz="0.009" iyy="4.974" iyz="-8.274" izz="4.965"/>
-        </inertial>
-
-        <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/Hull.stl"/>
-            </geometry>
-        </collision>
-
-        <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
-            <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/Hull.stl"/>
-            </geometry>
-            <material name="red"/>
+            <material name="gray"/>
         </visual>
     </link>
 
@@ -124,11 +78,11 @@
         </collision>
 
         <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://aquanaute_description/models/meshes/Motor.stl"/>
             </geometry>
-            <material name="black"/>
+            <material name="purple"/>
         </visual>
     </link>
 
@@ -136,7 +90,8 @@
         <inertial>
             <origin xyz="-0.034 0 0" rpy="0 0 0"/>
             <mass value="0.233"/>
-            <inertia ixx="1.441e-04" ixy="4.406e-09" ixz="0.00" iyy="1.760e-04"	iyz="2.373e-06" izz="1.961e-04"/>
+            <!--<inertia ixx="1.441e-04" ixy="4.406e-09" ixz="0.00" iyy="1.760e-04"	iyz="2.373e-06" izz="1.961e-04"/>-->
+            <inertia ixx="0.00" ixy="0.00" ixz="0.00" iyy="0.00" iyz="0.00" izz="0.00"/>
         </inertial>
 
         <collision>
@@ -147,7 +102,7 @@
         </collision>
 
         <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://aquanaute_description/models/meshes/Propeller.stl"/>
             </geometry>
@@ -155,32 +110,9 @@
         </visual>
     </link>
 
-    <link name="sensor_frame_link">
-        <inertial>
-            <origin xyz="-0.007 0 0.379" rpy="0 0 0"/>
-            <mass value="1.8"/>
-            <inertia ixx="0.308" ixy="0.00" ixz="0.007" iyy="0.297" iyz="0.00" izz="0.022"/>
-        </inertial>
-
-        <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/sensor_frame.stl"/>
-            </geometry>
-        </collision>
-
-        <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
-            <geometry>
-                <mesh filename="package://aquanaute_description/models/meshes/sensor_frame.stl"/>
-            </geometry>
-            <material name="white"/>
-        </visual>
-    </link>
-
     <link name="imu_link">
         <visual>
-            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
                 <cylinder radius="0.04" length="0.05"/>
             </geometry>
@@ -189,26 +121,14 @@
     </link>
 
     <!-- * * * Joint Definitions * * * -->
-    <joint name="platform_base_joint" type="fixed">
+    <joint name="boat_base_joint" type="fixed">
         <parent link="base_link"/>
-        <child link="platform_link"/>
-        <origin xyz="0 0 0.35" rpy="0 0 0"/>
+        <child link="boat_link"/>
+        <origin xyz="0 0 0.25" rpy="0 0 0"/>
     </joint>
 
-    <joint name="right_hull_platform_joint" type="fixed">
-        <parent link="platform_link"/>
-        <child link="right_hull_link"/>
-        <origin xyz="-0.05 -0.7 -0.036" rpy="0 0 0"/>
-    </joint>
-
-    <joint name="left_hull_platform_joint" type="fixed">
-        <parent link="platform_link"/>
-        <child link="left_hull_link"/>
-        <origin xyz="-0.05 0.7 -0.036" rpy="0 0 0"/>
-    </joint>
-
-    <joint name="motor_platform_joint" type="revolute">
-        <parent link="platform_link"/>
+    <joint name="motor_boat_joint" type="revolute">
+        <parent link="boat_link"/>
         <child link="motor_link"/>
         <origin xyz="-0.91 0.0 -0.09" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
@@ -225,15 +145,9 @@
         <dynamics damping="0.0000001"/>
     </joint>
 
-    <joint name="sensor_frame_platform_joint" type="fixed">
-        <parent link="platform_link"/>
-        <child link="sensor_frame_link"/>
-        <origin xyz="-0.55 0.0 0.0" rpy="0 0 0"/>
-    </joint>
-
-    <joint name="imu_platform_joint" type="fixed">
-        <parent link="platform_link"/>
+    <joint name="imu_boat_joint" type="fixed">
+        <parent link="boat_link"/>
         <child link="imu_link"/>
-        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <origin xyz="0 0 0.04" rpy="0 0 0"/>
     </joint>
 </robot>

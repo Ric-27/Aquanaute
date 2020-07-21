@@ -24,11 +24,11 @@
         <nRR>0.0</nRR>
         <!-- General dimensions -->
         <!--<boatArea>2.2</boatArea>-->
-        <hullRadius>0.18</hullRadius>
+        <hullRadius>0.19</hullRadius>
         <boatWidth>1.8</boatWidth>
-        <boatLength>3.0</boatLength>
+        <boatLength>3.2</boatLength>
         <!-- Length discretization, AKA, "N" -->
-        <length_n>2</length_n>
+        <length_n>10</length_n>
         <!-- Wave model -->
         <wave_model>ocean_waves</wave_model>
       </plugin>

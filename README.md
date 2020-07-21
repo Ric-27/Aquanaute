@@ -32,7 +32,7 @@ in the ocean.world.xacro (/vrx_gazebo/worlds) you have
     <xacro:usv_wind_gazebo direction="90" mean_vel="0" var_gain="5" var_time="1">
       <wind_objs>
         <wind_obj>
-          <name>wamv</name>
+          <name>aquanaute</name>
           <link_name>base_link</link_name>
           <coeff_vector>0.5 0.5 0.33</coeff_vector>
         </wind_obj>
