@@ -130,7 +130,7 @@
     <joint name="motor_boat_joint" type="revolute">
         <parent link="boat_link"/>
         <child link="motor_link"/>
-        <origin xyz="-0.91 0.0 -0.09" rpy="0 0 0"/>
+        <origin xyz="-0.905 0.0 0.115" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
         <limit effort="-1" velocity="-1" lower="-0.9" upper="0.9"/>
         <dynamics damping="0.0000001"/>
