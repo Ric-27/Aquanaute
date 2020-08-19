@@ -16,7 +16,7 @@ roslaunch_add_file_check(launch)
 catkin_package()
 
 install(
-  DIRECTORY launch meshes urdf
+  DIRECTORY launch models urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
