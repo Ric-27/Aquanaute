@@ -28,6 +28,23 @@ const byte COMM_FULL_FWD = 127;
 const byte COMM_MED_FWD = 100;
 const byte COMM_FULL_BCK = 1;
 const byte COMM_MED_BCK = 28;
+
+const byte RADIO_SCALE_CENTER = 50;
+const byte RADIO_SCALE_LEFT = 0;
+const byte RADIO_SCALE_RIGHT = 100;
+
+const byte MAX_ERROR_BEFORE_SPEED_IS_SET_TO_MAX = 30;
+const byte ERROR_CENTER_THRESHOLD = 1;
+const byte ERROR_MIN = -50;
+const byte ERROR_MAX = 50;
+//scale (-50,50) to (1-127) f(x) = (b-a)(x - min)/max - min  + a
+const float SPEED_COMMAND_SCALE_COEFFICIENT = (COMM_FULL_FWD-COMM_FULL_BCK)/(ERROR_MAX - ERROR_MIN)
+
+const byte TOTAL_OF_MESSAGES = 4;
+const byte BYTE_CARRY_LEFT = 8;
+
+const byte HEX_CHAR_C =0x43; //Char "C", by design this is the message that the encoder expects to respond with its position
+const word FIFTY_HZ = 331; // = (16*10^6) / (50*1024) - 1 (must be <65536) // 311 = 50Hz
 //***** Variables *****//
 byte speed_command = COMM_ALL_STOP; //Message to send to the Motor Controller
 
@@ -64,7 +81,7 @@ void setup()
   TCCR4B = 0; // same for TCCR4B
   TCNT4 = 0;  //initialize counter value to 0
   // set compare match register for 20hz increments
-  OCR4A = 311 / 1; // = (16*10^6) / (50*1024) - 1 (must be <65536) // 311 = 50Hz / // turn on CTC mode
+  OCR4A = FIFTY_HZ;// = (16*10^6) / (50*1024) - 1 (must be <65536) // 311 = 50Hz // turn on CTC mode
   TCCR4B |= (1 << WGM12);
   // Set CS12 and CS10 bits for 1024 prescaler
   TCCR4B |= (1 << CS12) | (1 << CS10);
@@ -81,7 +98,7 @@ void setup()
 /*Request the motor position, with a frecuency of 50Hz*/
 ISR(TIMER4_COMPA_vect)
 {
-  Serial2.write(0x43); //Char "C", by design this is the message that the encoder expects to respond with its position
+  Serial2.write(HEX_CHAR_C); 
   count = 0;           //reset of message counter
   first = true;        //reset of first message
 }
@@ -104,19 +121,19 @@ void pwm()
       return;
     if (delta_us <= RADIO_CENTER + RADIO_THRESHOLD && delta_us >= RADIO_CENTER - RADIO_THRESHOLD)
     {
-      scale_radio = 50;
+      scale_radio = RADIO_SCALE_CENTER;
     }
     else if (delta_us <= RADIO_LEFT + RADIO_THRESHOLD)
     {
-      scale_radio = 0;
+      scale_radio = RADIO_SCALE_LEFT;
     }
     else if (delta_us >= RADIO_RIGHT - RADIO_THRESHOLD)
     {
-      scale_radio = 100;
+      scale_radio = RADIO_SCALE_RIGHT;
     }
     else
     {
-      scale_radio = (delta_us - RADIO_LEFT) * 100 / (RADIO_RANGE);
+      scale_radio = (delta_us - RADIO_LEFT) * 100 / (RADIO_RANGE); //scale the recieved radio to a value between 0-100
     }
     go_print = true;
   }
@@ -141,11 +158,11 @@ void serialEvent2()
     }
     else //chain all the bytes to have the number that indicates a position
     {
-      recv = (recv << 8) + Serial2.read();
+      recv = (recv << BYTE_CARRY_LEFT) + Serial2.read();
     }
     count++;
   }
-  if (count == 4) //when all 4 bytes of the message have been recieved, do the control
+  if (count == TOTAL_OF_MESSAGES) //when all 4 bytes of the message have been recieved, do the control
   {
     pos = recv;
     count = 0;
@@ -181,21 +198,21 @@ void serialEvent2()
 
       int v = _kp * error_pos; //Control
 
-      if (v >= -1 && v <= 1) //if the error is at 0 with a threshold, send stop to the motor
+      if (v >= -ERROR_CENTER_THRESHOLD && v <= ERROR_CENTER_THRESHOLD) //if the error is at 0 with a threshold, send stop to the motor
       {
         speed_command = COMM_STOP;
       }
-      else if (v >= 30) //if the error (-50,50) is more than "30" (value arbitrarily chosen) send the maximum speed, this is done to minimize the time of the mouvement
+      else if (v >= MAX_ERROR_BEFORE_SPEED_IS_SET_TO_MAX) //if the error (-50,50) is more than "30" (value arbitrarily chosen) send the maximum speed, this is done to minimize the time of the mouvement
       {
         speed_command = COMM_FULL_FWD;
       }
-      else if (v <= -30) //if the error (-50,50) is less than "-30" (value arbitrarily chosen) send the maximum speed, this is done to minimize the time of the mouvement
+      else if (v <= -MAX_ERROR_BEFORE_SPEED_IS_SET_TO_MAX) //if the error (-50,50) is less than "-30" (value arbitrarily chosen) send the maximum speed, this is done to minimize the time of the mouvement
       {
         speed_command = COMM_FULL_BCK;
       }
       else //Calculate the speed with this formula that transforms the error (-50,50) into the speed command (1,127)
       {
-        speed_command = (1.26) * (v - 50) + 127;
+        speed_command = SPEED_COMMAND_SCALE_COEFFICIENT * (v - ERROR_MIN) + COMM_FULL_BCK;    
       }
     }
     go_print = true;
